@@ -5,10 +5,10 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-## user ###
+### USER ###
 .DS_Store
 
-### env ###
+### ENV ###
 application.properties
 
 ### STS ###
