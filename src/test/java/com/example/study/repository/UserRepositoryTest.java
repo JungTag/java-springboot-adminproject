@@ -36,7 +36,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Test
     @Transactional
     public void read() {
-        Optional<User> user = userRepository.findById(3L); // type == Long
+        Optional<User> user = userRepository.findByAccount("TestUser03"); // type == Long
         user.ifPresent(selectedUser -> {
             selectedUser.getOrderDetailList().stream().forEach(detail -> {
                 Item item = detail.getItem();
