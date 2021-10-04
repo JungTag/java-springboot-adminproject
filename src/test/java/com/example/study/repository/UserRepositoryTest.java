@@ -39,6 +39,14 @@ public class UserRepositoryTest extends StudyApplicationTests {
         user.setPhoneNumber(phoneNumber);
         user.setRegisteredAt(registeredAt);
 
+        // Builder 패턴
+        User u = User.builder()
+                .account(account).
+                password(password).
+                status(status).
+                email(email).
+                build();
+
         User newUser = userRepository.save(user);
 
         Assert.assertNotNull(newUser);
@@ -48,6 +56,7 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Transactional
     public void read() {
         User user = userRepository.findFirstByPhoneNumberOrderByIdDesc("010-1111-2222");
+
         user.getOrderGroupList().stream().forEach(orderGroup -> {
             System.out.println("---------------주문묶음---------------");
             System.out.println("수령인 : " + orderGroup.getRevName());
@@ -71,6 +80,9 @@ public class UserRepositoryTest extends StudyApplicationTests {
     @Transactional
     public void update() {
         Optional<User> user = userRepository.findById(2L);
+        // Chain 패턴
+        // user.setEmail(email).setPhoneNumber(phoneNumber).setStatus(status);
+        // User u = new User().setEmail(email).setPhoneNumber(phoneNumber).setStatus(status);
         user.ifPresent(selectedUser -> {
             selectedUser.setAccount("PPPP");
             selectedUser.setUpdatedAt(LocalDateTime.now());
