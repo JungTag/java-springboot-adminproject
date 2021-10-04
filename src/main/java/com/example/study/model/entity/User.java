@@ -20,6 +20,7 @@ public class User {
     private Long id;
     private String account; // @Column(name = "account") 컬럼명 == 멤버변수명인 경우 생략 가능
     private String password;
+    private String status;
     private String email;
     private String phoneNumber; // JPA가 Camel Case와 Snake Case를 자동적으로 매핑해줌
     private LocalDateTime registeredAt;
