@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 @Service
 public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemApiResponse> {
@@ -41,13 +42,13 @@ public class ItemApiLogicService implements CrudInterface<ItemApiRequest, ItemAp
 
     @Override
     public Header<ItemApiResponse> read(Long id) {
-        return null;
+        return itemRepository.findById(id)
+                .map(item -> response(item))
+                .orElseGet(()-> Header.ERROR("데이터 없음"));
     }
 
     @Override
-    public Header<ItemApiResponse> update(Header<ItemApiRequest> request) {
-        return null;
-    }
+    public Header<ItemApiResponse> update(Header<ItemApiRequest> request) { return null; }
 
     @Override
     public Header delete(Long id) {
