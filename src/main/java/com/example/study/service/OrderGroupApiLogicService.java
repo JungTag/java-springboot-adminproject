@@ -34,9 +34,9 @@ public class OrderGroupApiLogicService implements CrudInterface<OrderGroupApiReq
                 .user(userRepository.getById(body.getUserId()))
                 .build();
 
-        OrderGroup newOrderGruop = orderGroupRepository.save(orderGroup);
+        OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
 
-        return response(newOrderGruop);
+        return response(newOrderGroup);
     }
 
     @Override
