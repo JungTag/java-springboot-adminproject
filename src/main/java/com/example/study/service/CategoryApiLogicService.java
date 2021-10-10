@@ -36,7 +36,18 @@ public class CategoryApiLogicService implements CrudInterface<CategoryApiRequest
 
     @Override
     public Header<CategoryApiResponse> update(Header<CategoryApiRequest> request) {
-        return null;
+        CategoryApiRequest body = request.getData();
+
+        return categoryRepository.findById(body.getId())
+                .map(category -> {
+                    category
+                            .setType(body.getType())
+                            .setTitle(body.getTitle());
+                    return category;
+                })
+                .map(categoryRepository::save)
+                .map(this::response)
+                .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
