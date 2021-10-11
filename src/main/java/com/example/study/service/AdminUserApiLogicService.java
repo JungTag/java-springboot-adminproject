@@ -1,21 +1,15 @@
 package com.example.study.service;
 
-import com.example.study.ifs.CrudInterface;
 import com.example.study.model.entity.AdminUser;
 import com.example.study.model.network.Header;
 import com.example.study.model.network.request.AdminUserRequest;
 import com.example.study.model.network.response.AdminUserResponse;
-import com.example.study.repository.AdminUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class AdminUserApiLogicService implements CrudInterface<AdminUserRequest, AdminUserResponse> {
-    @Autowired
-    AdminUserRepository adminUserRepository;
-
+public class AdminUserApiLogicService extends BaseService<AdminUserRequest, AdminUserResponse, AdminUser> {
     @Override
     public Header<AdminUserResponse> create(Header<AdminUserRequest> request) {
         AdminUserRequest body = request.getData();
@@ -28,14 +22,14 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserRequest,
                 .registeredAt(LocalDateTime.now())
                 .build();
 
-        AdminUser newAdminUser = adminUserRepository.save(adminUser);
+        AdminUser newAdminUser = baseRepository.save(adminUser);
 
         return response(newAdminUser);
     }
 
     @Override
     public Header<AdminUserResponse> read(Long id) {
-        return adminUserRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(this::response)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
@@ -44,7 +38,7 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserRequest,
     public Header<AdminUserResponse> update(Header<AdminUserRequest> request) {
         AdminUserRequest body = request.getData();
 
-        return adminUserRepository.findById(body.getId())
+        return baseRepository.findById(body.getId())
                 .map(adminUser -> {
                     adminUser
                             .setAccount(body.getAccount())
@@ -58,16 +52,16 @@ public class AdminUserApiLogicService implements CrudInterface<AdminUserRequest,
                             .setUnregisteredAt(body.getUnregisteredAt());
                     return adminUser;
                 })
-                .map(adminUserRepository::save)
+                .map(baseRepository::save)
                 .map(this::response)
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
     }
 
     @Override
     public Header delete(Long id) {
-        return adminUserRepository.findById(id)
+        return baseRepository.findById(id)
                 .map(adminUser -> {
-                    adminUserRepository.delete(adminUser);
+                    baseRepository.delete(adminUser);
                     return Header.OK();
                 })
                 .orElseGet(() -> Header.ERROR("데이터 없음"));
