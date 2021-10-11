@@ -1,5 +1,6 @@
 package com.example.study.model.entity;
 
+import com.example.study.model.enumclass.UserStatus;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.CreatedBy;
@@ -28,7 +29,8 @@ public class User {
     private Long id;
     private String account; // @Column(name = "account") 컬럼명 == 멤버변수명인 경우 생략 가능
     private String password;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
     private String email;
     private String phoneNumber; // JPA가 Camel Case와 Snake Case를 자동적으로 매핑해줌
     private LocalDateTime registeredAt;
