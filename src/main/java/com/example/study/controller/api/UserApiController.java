@@ -29,7 +29,7 @@ public class UserApiController extends CrudController<UserApiRequest, UserApiRes
     }
 
     @GetMapping("")
-    public Header<List<UserApiResponse>> search(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, size=10) Pageable pageable) {
+    public Header<List<UserApiResponse>> findAll(@PageableDefault(sort = "id", direction = Sort.Direction.ASC, size=10) Pageable pageable) {
         log.info("{}", pageable);
         return userApiLogicService.search(pageable);
     }
